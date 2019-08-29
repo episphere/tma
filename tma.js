@@ -36,7 +36,7 @@ tma.align=function(){
     tma.cv.style.position='absolute'
     tma.cv.style.top=tma.img.getBoundingClientRect().top
     tma.cv.style.left=tma.img.getBoundingClientRect().left
-    tma.cv.style.width=tma.img.style.width="100%"
+    //tma.cv.style.width=tma.img.style.width="100%"
 }
 
 
