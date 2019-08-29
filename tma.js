@@ -12,7 +12,7 @@ tma.getImgData=function(){
     tma.cv.width=tma.img.width
     tma.cv.height=tma.img.height
     tma.ctx=tma.cv.getContext('2d')
-    tma.ctx.drawImage(tma.img,0,0)
+    //tma.ctx.drawImage(tma.img,0,0)
     let dd = tma.ctx.getImageData(0,0,tma.cv.width,tma.cv.height)
     let n = tma.cv.height
     let m = tma.cv.width
@@ -29,4 +29,4 @@ tma.getImgData=function(){
 
 
 
-window.onload=(_=>{tma()})
+// window.onload=(_=>{tma()})
