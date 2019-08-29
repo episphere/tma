@@ -12,7 +12,7 @@ tma.getImgData=function(){
     tma.cv.width=tma.img.width
     tma.cv.height=tma.img.height
     tma.ctx=tma.cv.getContext('2d')
-    //tma.ctx.drawImage(tma.img,0,0)
+    tma.ctx.drawImage(tma.img,0,0) // write image data to canvas
     let dd = tma.ctx.getImageData(0,0,tma.cv.width,tma.cv.height).data
     let n = tma.cv.height
     let m = tma.cv.width
@@ -24,7 +24,19 @@ tma.getImgData=function(){
             return [dd[ij],dd[ij+1],dd[ij+2],dd[ij+3]]
         })
     })
-    //debugger
+    // place canvas on top of image
+    tma.img.parentElement.appendChild(tma.cv)
+    //tma.img.hidden=true // hide original img element
+    /*
+    
+    */
+}
+
+tma.align=function(){
+    tma.cv.style.position='absolute'
+    tma.cv.style.top=tma.img.getBoundingClientRect().top
+    tma.cv.style.left=tma.img.getBoundingClientRect().left
+    tma.cv.style.width=tma.img.style.width="100%"
 }
 
 
