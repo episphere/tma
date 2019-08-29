@@ -13,11 +13,11 @@ tma.getImgData=function(){
     tma.cv.height=tma.img.height
     tma.ctx=tma.cv.getContext('2d')
     //tma.ctx.drawImage(tma.img,0,0)
-    let dd = tma.ctx.getImageData(0,0,tma.cv.width,tma.cv.height)
+    let dd = tma.ctx.getImageData(0,0,tma.cv.width,tma.cv.height).data
     let n = tma.cv.height
     let m = tma.cv.width
-    let ii=[...Array(n)]
-    let jj=[...Array(m)]
+    let ii=[...Array(n)].map((_,x)=>x)
+    let jj=[...Array(m)].map((_,x)=>x)
     tma.data = ii.map(i=>{
         return jj.map(j=>{
             let ij=(i*m+j)*4;
