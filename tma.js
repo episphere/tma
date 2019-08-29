@@ -27,9 +27,7 @@ tma.getImgData=function(){
     // place canvas on top of image
     tma.img.parentElement.appendChild(tma.cv)
     //tma.img.hidden=true // hide original img element
-    /*
-    
-    */
+    tma.align()
 }
 
 tma.align=function(){
