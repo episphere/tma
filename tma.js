@@ -32,7 +32,7 @@ tma.getImgData=function(){
 }
 
 tma.doMask=function(fun,dt){ // build binary mask for dt or for tma.data at tma.mask if dt is not provided
-    fun=fun||(x=>x.reduce((a,b)=>(255-a)+(255-b))<100)  // default function thresholds sum of rgba at 100
+    fun=fun||(x=>x.map(x=>(255-x)).reduce((a,b)=>a+b)<100)  // default function thresholds sum of rgba at 100
     if(dt){
         return dt.map(xx=>xx.map(fun))
     } else {
@@ -47,10 +47,11 @@ tma.cvWriteMask=function(mask,rgba0,rgba1){ // write boolean mask onto canvas
     if((!mask)&&(!tma.mask)){tma.doMask()} // prepare default mask if it looks like it will be needed
     mask = mask || tma.mask // default mask
     rgba0 = rgba0 || [100,0,0,0] // rgba asigned to pixel not segmented
-    rgba1 = rgba1 || [0,100,0,150] // rgba assigned to segmented pixel
+    rgba1 = rgba1 || [0,255,0,100] // rgba assigned to segmented pixel
     mask=mask.map(xx=>xx.map (x=> x ? rgba0 : rgba1)) // create rgba mask
     const imData = tma.data2imdata(mask)
     tma.ctx.putImageData(imData,0,0)
+    //return imData
 }
 
 tma.data2imdata=function(dt){ // conversta matrix data to image vector
@@ -66,6 +67,12 @@ tma.data2imdata=function(dt){ // conversta matrix data to image vector
         imData.data[ij+3]=x[3]
     })})
     return imData
+}
+
+tma.edge=function(mask){  // edges a boolean mask
+    if((!mask)&&(!tma.mask)){tma.doMask()} // prepare default mask if it looks like it will be needed
+    mask = mask || dt.mask
+    const edgeMask = 4
 }
 
 tma.align=function(){
