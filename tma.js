@@ -4,7 +4,7 @@ tma = function(img){
     if(tma.img){
         // ini 
         tma.getImgData()
-        tma.doMask()
+        //tma.doMask()
     }
 }
 
@@ -31,19 +31,25 @@ tma.getImgData=function(){
     //tma.align()
 }
 
-tma.doMask=function(fun){ // build binary mask for tma.data at tma.mask
+tma.doMask=function(fun,dt){ // build binary mask for dt or for tma.data at tma.mask if dt is not provided
     fun=fun||(x=>x.reduce((a,b)=>(255-a)+(255-b))<100)  // default function thresholds sum of rgba at 100
-    tma.mask=tma.data.map(xx=>{
-        return xx.map(fun)
-    })
-    return 'boolean mask at tma.mask'
+    if(dt){
+        return dt.map(xx=>xx.map(fun))
+    } else {
+        tma.mask=tma.data.map(xx=>{
+            return xx.map(fun)
+        })
+        return 'boolean mask at tma.mask'
+    }   
 }
 
-tma.cvWriteMask=function(a){ // write mask onto canvas
-    a=a||150 // transparency
-    const msk=tma.mask.map(xx=>xx.map (x=> x ? [100,0,0,0] : [0,100,0,150])) // rgba mask
-    //const imData = tma.ctx.createImageData(tma.cv.height,tma.cv.width)
-    const imData = tma.data2imdata(msk)
+tma.cvWriteMask=function(mask,rgba0,rgba1){ // write boolean mask onto canvas 
+    if((!mask)&&(!tma.mask)){tma.doMask()} // prepare default mask if it looks like it will be needed
+    mask = mask || tma.mask // default mask
+    rgba0 = rgba0 || [100,0,0,0] // rgba asigned to pixel not segmented
+    rgba1 = rgba1 || [0,100,0,150] // rgba assigned to segmented pixel
+    mask=mask.map(xx=>xx.map (x=> x ? rgba0 : rgba1)) // create rgba mask
+    const imData = tma.data2imdata(mask)
     tma.ctx.putImageData(imData,0,0)
 }
 
