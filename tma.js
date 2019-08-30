@@ -6,7 +6,7 @@ tma = function(img){
         tma.getImgData()
         //tma.doMask()
         tma.cvWriteMask()
-        tma.edge()
+        tma.maskEdge=tma.edge()
         tma.align()
     }
 }
@@ -92,6 +92,7 @@ tma.edge=function(mask){  // edges a boolean mask
         return (c>3 && c<7)
     }))
     tma.cvWriteMask(edgeMask,[0,0,0,0],[255,0,0,100])
+    return edgeMask
 }
 
 tma.align=function(){
