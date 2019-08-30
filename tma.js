@@ -41,25 +41,23 @@ tma.doMask=function(fun){ // build binary mask for tma.data at tma.mask
 
 tma.cvWriteMask=function(a){ // write mask onto canvas
     a=a||150 // transparency
-    const msk=tma.mask.map(x=> x ? [100,100,100,a] : [255,255,255,0])
-    const imData = tma.ctx.createImageData(tma.cv.height,tma.cv.width)
-
-    debugger
-
-
+    const msk=tma.mask.map(xx=>xx.map (x=> x ? [100,0,0,0] : [0,100,0,150])) // rgba mask
+    //const imData = tma.ctx.createImageData(tma.cv.height,tma.cv.width)
+    const imData = tma.data2imdata(msk)
+    tma.ctx.putImageData(imData,0,0)
 }
 
 tma.data2imdata=function(dt){ // conversta matrix data to image vector
     dt=dt||tma.data
     const n = dt.length
     const m = dt[0].length
-    let imData = tma.ctx.createImageData(m,n) // notice reverse index order from matlab
+    const imData = tma.ctx.createImageData(m,n) // notice reverse index order from matlab
     dt.forEach((xx,i)=>{xx.forEach((x,j)=>{
-        let ij = i*n*4+j*4
-        imData[ij]=x[0]
-        imData[ij+1]=x[1]
-        imData[ij+2]=x[2]
-        imData[ij+3]=x[3]
+        let ij = i*m*4+j*4
+        imData.data[ij]=x[0]
+        imData.data[ij+1]=x[1]
+        imData.data[ij+2]=x[2]
+        imData.data[ij+3]=x[3]
     })})
     return imData
 }
