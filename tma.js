@@ -6,7 +6,8 @@ tma = function(img){
         tma.getImgData()
         //tma.doMask()
         tma.cvWriteMask()
-        //tma.align()
+        tma.edge()
+        tma.align()
     }
 }
 
