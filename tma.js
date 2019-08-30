@@ -5,6 +5,8 @@ tma = function(img){
         // ini 
         tma.getImgData()
         //tma.doMask()
+        tma.cvWriteMask()
+        tma.align()
     }
 }
 
@@ -71,8 +73,10 @@ tma.data2imdata=function(dt){ // conversta matrix data to image vector
 
 tma.edge=function(mask){  // edges a boolean mask
     if((!mask)&&(!tma.mask)){tma.doMask()} // prepare default mask if it looks like it will be needed
-    mask = mask || dt.mask
-    const edgeMask = 4
+    mask = mask || dt.mask // default
+    const edgeMask = mask.map((xx,i)=>xx.map((x,j)=>{
+        debugger
+    }))
 }
 
 tma.align=function(){
