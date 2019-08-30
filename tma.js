@@ -30,6 +30,14 @@ tma.getImgData=function(){
     //tma.align()
 }
 
+tma.doMask=function(fun){ // build binary mask for tma.data at tma.mask
+    fun=fun||(x=>x.reduce((a,b)=>(255-a)+(255-b))<100)  // default function thresholds sum of rgba at 100
+    tma.mask=tma.data.map(xx=>{
+        return xx.map(fun)
+    })
+    return 'boolean mask at tma.mask'
+}
+
 tma.align=function(){
     tma.cv.style.position='absolute'
     tma.cv.style.top=tma.img.getBoundingClientRect().top
