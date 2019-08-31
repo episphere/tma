@@ -29,6 +29,7 @@ tma.getImgData=function(){
         })
     })
     // place canvas on top of image
+    // tma.img.parentElement.appendChild(document.createElement('br')) // to make sure they are placed in different lines
     tma.img.parentElement.appendChild(tma.cv)
     //tma.img.hidden=true // hide original img element
     //tma.align()
@@ -96,11 +97,10 @@ tma.edge=function(mask){  // edges a boolean mask
 }
 
 tma.align=function(){
-    tma.cv.style.position='fixed'
-    tma.cv.style.top=tma.img.getBoundingClientRect().top
-    tma.cv.style.left=tma.img.getBoundingClientRect().left
+    tma.cv.style.position='relative'
+    tma.cv.style.top=-tma.img.height//tma.img.getBoundingClientRect().top
+    //tma.cv.style.left=0//tma.img.getBoundingClientRect().left   
 }
-
 
 
 // window.onload=(_=>{tma()})
