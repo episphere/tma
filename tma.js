@@ -12,14 +12,14 @@ tma = function(img){
 }
 
 tma.getImgData=function(){
-    tma.cv0=document.createElement('canvas')
-    tma.cv0.width=tma.img.width
-    tma.cv0.height=tma.img.height
-    tma.ctx0=tma.cv0.getContext('2d')
-    tma.ctx0.drawImage(tma.img,0,0) // write image data to canvas
-    let dd = tma.ctx0.getImageData(0,0,tma.cv0.width,tma.cv0.height).data
-    let n = tma.cv0.height
-    let m = tma.cv0.width
+    tma.cv=document.createElement('canvas')
+    tma.cv.width=tma.img.width
+    tma.cv.height=tma.img.height
+    tma.ctx=tma.cv.getContext('2d')
+    tma.ctx.drawImage(tma.img,0,0) // write image data to canvas
+    let dd = tma.ctx.getImageData(0,0,tma.cv.width,tma.cv.height).data
+    let n = tma.cv.height
+    let m = tma.cv.width
     let ii=[...Array(n)].map((_,x)=>x)
     let jj=[...Array(m)].map((_,x)=>x)
     tma.data = ii.map(i=>{
@@ -30,18 +30,8 @@ tma.getImgData=function(){
     })
     // place canvas on top of image
     // tma.img.parentElement.appendChild(document.createElement('br')) // to make sure they are placed in different lines
-    tma.img.parentElement.appendChild(tma.cv0)
-    /*
-    // annotation canvas
-    tma.cv1=document.createElement('canvas')
-    tma.cv1.width=tma.img.width
-    tma.cv1.height=tma.img.height
-    tma.ctx1=tma.cv1.getContext('2d')
-    tma.img.parentElement.appendChild(tma.cv1)
-    */
-
-    //tma.img.hidden=true // hide original img element
-    //tma.align()
+    tma.img.parentElement.appendChild(tma.cv)
+    tma.align()
 }
 
 tma.doMask=function(fun,dt){ // build binary mask for dt or for tma.data at tma.mask if dt is not provided
@@ -63,7 +53,7 @@ tma.cvWriteMask=function(mask,rgba0,rgba1){ // write boolean mask onto canvas
     rgba1 = rgba1 || [0,255,0,100] // rgba assigned to segmented pixel
     mask=mask.map(xx=>xx.map (x=> x ? rgba1 : rgba0)) // create rgba mask
     const imData = tma.data2imdata(mask)
-    tma.ctx1.putImageData(imData,0,0)
+    tma.ctx.putImageData(imData,0,0)
     //return imData
 }
 
@@ -71,7 +61,7 @@ tma.data2imdata=function(dt){ // conversta matrix data to image vector
     dt=dt||tma.data
     const n = dt.length
     const m = dt[0].length
-    const imData = tma.ctx1.createImageData(m,n) // notice reverse index order from matlab
+    const imData = tma.ctx.createImageData(m,n) // notice reverse index order from matlab
     dt.forEach((xx,i)=>{xx.forEach((x,j)=>{
         let ij = i*m*4+j*4
         imData.data[ij]=x[0]
@@ -106,10 +96,10 @@ tma.edge=function(mask){  // edges a boolean mask
 }
 
 tma.align=function(){
-    const pos = tma.cv0.getBoundingClientRect()
-    tma.cv1.style.position='absolute'
-    tma.cv1.style.top=pos.top
-    tma.cv1.style.left=pos.left
+    const pos = tma.img.getBoundingClientRect()
+    tma.cv.style.position='absolute'
+    tma.cv.style.top=pos.top
+    tma.cv.style.left=pos.left
 
     //tma.img.getBoundingClientRect().top
     //tma.cv.style.left=0//tma.img.getBoundingClientRect().left   
