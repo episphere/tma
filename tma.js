@@ -31,12 +31,14 @@ tma.getImgData=function(){
     // place canvas on top of image
     // tma.img.parentElement.appendChild(document.createElement('br')) // to make sure they are placed in different lines
     tma.img.parentElement.appendChild(tma.cv0)
+    /*
     // annotation canvas
     tma.cv1=document.createElement('canvas')
     tma.cv1.width=tma.img.width
     tma.cv1.height=tma.img.height
     tma.ctx1=tma.cv1.getContext('2d')
     tma.img.parentElement.appendChild(tma.cv1)
+    */
 
     //tma.img.hidden=true // hide original img element
     //tma.align()
