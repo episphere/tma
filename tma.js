@@ -20,8 +20,8 @@ tma.getImgData=function(){
     let dd = tma.ctx.getImageData(0,0,tma.cv.width,tma.cv.height).data
     let n = tma.cv.height
     let m = tma.cv.width
-    let ii=[...Array(n)].map((_,x)=>x)
-    let jj=[...Array(m)].map((_,x)=>x)
+    let ii=[...Array(n).keys()]
+    let jj=[...Array(m).keys()]
     tma.data = ii.map(i=>{
         return jj.map(j=>{
             let ij=(i*m+j)*4;
