@@ -25,7 +25,7 @@ tma.getImgData=function(){
     tma.data = ii.map(i=>{
         return jj.map(j=>{
             let ij=(i*m+j)*4;
-            return [dd[ij],dd[ij+1],dd[ij+2],dd[ij+3]]
+            return new Uint8ClampedArray([dd[ij],dd[ij+1],dd[ij+2],dd[ij+3]])
         })
     })
     // place canvas on top of image
@@ -50,8 +50,8 @@ tma.doMask=function(fun,dt){ // build binary mask for dt or for tma.data at tma.
 tma.cvWriteMask=function(mask,rgba0,rgba1){ // write boolean mask onto canvas 
     if((!mask)&&(!tma.mask)){tma.doMask()} // prepare default mask if it looks like it will be needed
     mask = mask || tma.mask // default mask
-    rgba0 = rgba0 || [100,0,0,0] // rgba asigned to pixel not segmented
-    rgba1 = rgba1 || [0,255,0,100] // rgba assigned to segmented pixel
+    rgba0 = rgba0 || new Uint8ClampedArray([100,0,0,0]) // rgba asigned to pixel not segmented
+    rgba1 = rgba1 || new Uint8ClampedArray([0,255,0,100]) // rgba assigned to segmented pixel
     mask=mask.map(xx=>xx.map (x=> x ? rgba1 : rgba0)) // create rgba mask
     const imData = tma.data2imdata(mask)
     tma.ctx.putImageData(imData,0,0)
@@ -92,12 +92,17 @@ tma.edge=function(mask){  // edges a boolean mask
         }))
         return (c>3 && c<7)
     }))
-    tma.cvWriteMask(edgeMask,[0,0,0,0],[255,0,0,100])
+    tma.cvWriteMask(edgeMask,new Uint8ClampedArray([0,0,0,0]),new Uint8ClampedArray([255,0,0,100]))
     return edgeMask
 }
 
 tma.align=function(){
+    // thank you Praful!
     tma.img.style.position='absolute'
     tma.cv.style.position='relative'
+    // in case there was a change of position, size or zoom:
+    tma.cv.style.top=tma.cv.style.left=0
+    tma.cv.style.width=tma.img.style.width 
+    tma.cv.style.zoom=tma.img.style.zoom
 }
 
